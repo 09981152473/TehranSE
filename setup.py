@@ -1,6 +1,6 @@
 from setuptools import setup
 
-name = "tehranse"
+name = "xtehranse"
 version = "1.0.0"
 description = "TehranSE is a python library to access Tehran Stock Exchange data"
 url = "https://github.com/SinaMobasheri/TehranSE"
@@ -23,7 +23,7 @@ unfortunately, there is no suitable way to access financial information in Tehra
 TehranSE is trying to solve this problem
 
 ### Installation
-`pip install tehranse`
+`pip install xtehranse`
 
 ### Documentation
 see [homepage](https://github.com/SinaMobasheri/TehranSE) for more information
