@@ -1,0 +1,3 @@
+include LICENSE
+include tehranse/cache/freefloat.json
+include tehranse/cache/shares.json
