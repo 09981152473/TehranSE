@@ -28,6 +28,9 @@ TehranSE is trying to solve this problem
 ### Documentation
 see [homepage](https://github.com/SinaMobasheri/TehranSE) for more information
 
+### Support
+if this package was useful to you, give it a ⭐ star
+
 ### License
 [GNU General Public License Version 3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 """
