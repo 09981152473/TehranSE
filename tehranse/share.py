@@ -33,6 +33,14 @@ def _strtime(itime):
     itime = itime[:2] + ":" + itime[2:4] + ":" + itime[4:]
     return itime
 
+
+def _allcorrect(response):
+    if response.status_code == 200:
+        return response.text
+
+    else:
+        raise RuntimeError("Server Does Not Respond")
+
 path = dirname(__file__)
 with open(path+"/cache/freefloat.json") as file:
     freefloats = loads(file.read())
@@ -47,7 +55,7 @@ class Share:
         payload = {"partree": "15131M", "i": inscode}
 
         htmlfile = session.get(url, params=payload)
-        htmlfile = htmlfile.text
+        htmlfile = _allcorrect(htmlfile)
 
         soup = BeautifulSoup(htmlfile, "html.parser")
         values = soup.find("table").find_all("td")
@@ -80,7 +88,7 @@ class Share:
         payload = {"skey": sharename}
 
         csvfile = session.get(url, params=payload)
-        csvfile = csvfile.text.replace(";", "\n")
+        csvfile = _allcorrect(csvfile).replace(";", "\n")
         csvfile = list(reader(StringIO(csvfile)))
 
         if csvfile:
@@ -94,7 +102,7 @@ class Share:
         payload = {"i": self.inscode, "Top": 1000000, "A": 0}
 
         csvfile = session.get(url, params=payload)
-        csvfile = csvfile.text.replace("@", ",").replace(";", "\n")
+        csvfile = _allcorrect(csvfile).replace("@", ",").replace(";", "\n")
         csvfile = list(reader(StringIO(csvfile)))
 
         dates = []
@@ -108,7 +116,7 @@ class Share:
         payload = {"i": self.inscode, "c": self.csecval}
 
         csvfile = session.get(url, params=payload)
-        csvfile = csvfile.text.replace(";", "\n").replace("@", ",")
+        csvfile = _allcorrect(csvfile).replace(";", "\n").replace("@", ",")
         csvfile = list(reader(StringIO(csvfile)))
 
         csvfile[2] = _fixorders(csvfile[2])
@@ -177,7 +185,7 @@ class Share:
             payload = {"ParTree": "151311", "i": self.inscode}
 
             htmlfile = session.get(url, params=payload)
-            htmlfile = htmlfile.text
+            htmlfile = _allcorrect(htmlfile)
 
             if self.inscode in freefloats:
                 freefloat = freefloats[self.inscode]
@@ -209,7 +217,7 @@ class Share:
         payload = {"i": self.inscode}
 
         csvfile = session.get(url, params=payload)
-        csvfile = csvfile.text.replace(";", "\n")
+        csvfile = _allcorrect(csvfile).replace(";", "\n")
         csvfile = list(reader(StringIO(csvfile)))
 
         theclientes = {}
@@ -238,7 +246,7 @@ class Share:
         payload = {"partree": "15131T", "c": self.cisin}
 
         htmlfile = session.get(url, params=payload)
-        htmlfile = htmlfile.text
+        htmlfile = _allcorrect(htmlfile)
 
         soup = BeautifulSoup(htmlfile, "html.parser")
         rows = soup.find_all("tr")
@@ -252,8 +260,8 @@ class Share:
             url = "http://www.tsetmc.com/tsev2/data/ShareHolder.aspx"
             payload = {"i": shareholderid}
 
-            csvfile = session.get(url, params=payload).text
-            csvfile = csvfile[:csvfile.index("#")].replace(";", "\n")
+            csvfile = session.get(url, params=payload)
+            csvfile = _allcorrect(csvfile)[:_allcorrect(csvfile).index("#")].replace(";", "\n")
             csvfile = list(reader(StringIO(csvfile)))
 
             duration = len(csvfile)
@@ -292,7 +300,7 @@ class Share:
         payload = {"i": self.inscode, "Top": number, "A": 0}
 
         csvfile = session.get(url, params=payload)
-        csvfile = csvfile.text.replace("@", ",").replace(";", "\n")
+        csvfile = _allcorrect(csvfile).replace("@", ",").replace(";", "\n")
         csvfile = list(reader(StringIO(csvfile)))
 
         thepricehistory = {}
@@ -340,7 +348,7 @@ class Share:
             payload = {"i": self.inscode}
 
             xmlfile = session.get(url, params=payload)
-            xmlfile = xmlfile.text
+            xmlfile = _allcorrect(xmlfile)
             xmlfile = ElementTree.fromstring(xmlfile)
 
             for row in xmlfile:
@@ -360,7 +368,7 @@ class Share:
             payload = {"ParTree": "15131P", "i": self.inscode, "d": date}
 
             htmlfile = session.get(url, params=payload)
-            htmlfile = htmlfile.text
+            htmlfile = _allcorrect(htmlfile)
 
             listfile = loads(findall(r"IntraTradeData=(.+?);", htmlfile)[0].replace("'", '"'))
 
@@ -412,7 +420,7 @@ class Share:
             payload = {'partree': '151321', 'i': self.inscode}
 
             htmlfile = session.get(url, params=payload)
-            htmlfile = htmlfile.text
+            htmlfile = _allcorrect(htmlfile)
 
             listfile = loads(findall(r"BestLimitData=(.+?);", htmlfile)[0].replace("'", '"'))
 
@@ -423,8 +431,7 @@ class Share:
                 payload = {"ParTree": "15131P", "i": self.inscode, "d": date}
 
                 htmlfile = session.get(url, params=payload)
-                htmlfile = htmlfile.text
-
+                htmlfile = _allcorrect(htmlfile)
                 listfile = loads(findall(r"BestLimitData=(.+?);", htmlfile)[0].replace("'", '"'))
 
         else:
@@ -432,7 +439,7 @@ class Share:
             payload = {"ParTree": "15131P", "i": self.inscode, "d": date}
 
             htmlfile = session.get(url, params=payload)
-            htmlfile = htmlfile.text
+            htmlfile = _allcorrect(htmlfile)
 
             listfile = loads(findall(r"BestLimitData=(.+?);", htmlfile)[0].replace("'", '"'))
 
