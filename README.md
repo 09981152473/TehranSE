@@ -9,7 +9,7 @@ TehranSE is trying to solve this problem
 `pip install xtehranse`
 
 ### Documentation
-for Documentation in Persian see 📔 [virgool](https://virgool.io/@sinamobasheri)
+for Documentation in Persian see 📔 [here](https://sinamobasheri.me/resources/tehranse.pdf)
 
 ### Support
 if this package was useful to you, give it a ⭐ star
