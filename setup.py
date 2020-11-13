@@ -1,7 +1,7 @@
 from setuptools import setup
 
 name = "xtehranse"
-version = "1.1.0"
+version = "1.2.0"
 description = "TehranSE is a python library to access Tehran Stock Exchange data"
 url = "https://github.com/SinaMobasheri/TehranSE"
 author = "SinaMobasheri"
