@@ -66,7 +66,7 @@ class Share:
         self.companylatinname = values[5].string  # self naming
         self.csoccsac = values[7].string
         self.companyname = values[9].string  # self naming
-        self.sharename = values[11].string.strip()  # self naming
+        #self.sharename = values[11].string.strip()  # self naming
         self.lval30 = values[13].string
         self.cisin = values[15].string
         self.market = values[17].string  # self naming
@@ -75,6 +75,16 @@ class Share:
         self.lsecval = values[23].string
         self.csosecval = values[25].string
         self.lsosecval = values[27].string
+        
+
+        url = "http://tsetmc.com/Loader.aspx"
+        payload = {"partree": "151311", "i": inscode}
+
+        htmlfile = session.get(url, params=payload)
+        htmlfile = _allcorrect(htmlfile)
+
+        self.sharename = findall(r"LVal18AFC='(.+?)'", htmlfile)[0]  # self naming
+        self.flow = findall(r"Flow='(.+?)',", htmlfile)[0]  # self naming
 
     def __str__(self):
         return f"{self.inscode}S"
